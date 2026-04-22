@@ -1,0 +1,193 @@
+{
+  "fos": {
+    "nom": "ZIP Fos-Etang de Berre",
+    "communes": {
+      "13039": "Fos-sur-Mer",
+      "13078": "Port-Saint-Louis-du-Rhone",
+      "13077": "Port-de-Bouc",
+      "13056": "Martigues",
+      "13063": "Miramas",
+      "13047": "Istres",
+      "13044": "Grans",
+      "13097": "Saint-Martin-de-Crau"
+    },
+    "zone_opsam": 5125,
+    "region_label": "PACA",
+    "coeff": 0.1,
+    "emploi_bassin": 0,
+    "emploi_region": 0,
+    "detail_communes": {},
+    "erreur": "HTTPSConnectionPool(host='open.urssaf.fr', port=443): Max retries exceeded with url: /api/explore/v2.1/catalog/datasets/etablissements-et-effectifs-salaries-au-niveau-commune-x-ape-last/exports/csv?where=%28code_departement%3D%2204%22+OR+code_departement%3D%2205%22+OR+code_departement%3D%2206%22+OR+code_departement%3D%2213%22+OR+code_departement%3D%2283%22+OR+code_departement%3D%2284%22%29+AND+%28secteur_na88+LIKE+%2249%22+OR+secteur_na88+LIKE+%2252%22%29&select=code_commune%2Ceffectifs_salaries_2023%2Ceffectifs_salaries_2022&delimiter=%3B&limit=-1 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000022BA86F3A10>: Failed to resolve 'open.urssaf.fr' ([Errno 11001] getaddrinfo failed)\"))"
+  },
+  "sete": {
+    "nom": "Bassin portuaire Sete-Thau",
+    "communes": {
+      "34301": "Sete",
+      "34108": "Frontignan",
+      "34023": "Balaruc-les-Bains",
+      "34024": "Balaruc-le-Vieux",
+      "34150": "Marseillan",
+      "34157": "Meze",
+      "34003": "Agde"
+    },
+    "zone_opsam": 5124,
+    "region_label": "Occitanie",
+    "coeff": 0.05,
+    "emploi_bassin": 0,
+    "emploi_region": 0,
+    "detail_communes": {},
+    "erreur": "HTTPSConnectionPool(host='open.urssaf.fr', port=443): Max retries exceeded with url: /api/explore/v2.1/catalog/datasets/etablissements-et-effectifs-salaries-au-niveau-commune-x-ape-last/exports/csv?where=%28code_departement%3D%2209%22+OR+code_departement%3D%2211%22+OR+code_departement%3D%2212%22+OR+code_departement%3D%2230%22+OR+code_departement%3D%2231%22+OR+code_departement%3D%2232%22+OR+code_departement%3D%2234%22+OR+code_departement%3D%2246%22+OR+code_departement%3D%2248%22+OR+code_departement%3D%2265%22+OR+code_departement%3D%2266%22+OR+code_departement%3D%2281%22+OR+code_departement%3D%2282%22%29+AND+%28secteur_na88+LIKE+%2249%22+OR+secteur_na88+LIKE+%2252%22%29&select=code_commune%2Ceffectifs_salaries_2023%2Ceffectifs_salaries_2022&delimiter=%3B&limit=-1 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000022BA86F7C50>: Failed to resolve 'open.urssaf.fr' ([Errno 11002] getaddrinfo failed)\"))"
+  },
+  "drome_valence_montelimar": {
+    "nom": "Drome (26) — ports Valence / Montélimar",
+    "communes": {
+      "26038": "Beaumont-Monteux",
+      "26042": "Beauvallon",
+      "26058": "Bourg-les-Valence",
+      "26084": "Chateauneuf-sur-Isere",
+      "26113": "Saint-Marcel-les-Valence",
+      "26124": "Etoile-sur-Rhone",
+      "26170": "Malissard",
+      "26198": "Montelimar",
+      "26250": "Pont-de-l'Isere",
+      "26252": "Portes-les-Valence",
+      "26362": "Valence"
+    },
+    "zone_opsam": 5135,
+    "region_label": "Drome",
+    "coeff": 0.1,
+    "emploi_bassin": 0,
+    "emploi_region": 0,
+    "detail_communes": {},
+    "erreur": "HTTPSConnectionPool(host='open.urssaf.fr', port=443): Max retries exceeded with url: /api/explore/v2.1/catalog/datasets/etablissements-et-effectifs-salaries-au-niveau-commune-x-ape-last/exports/csv?where=%28code_departement%3D%2226%22%29+AND+%28secteur_na88+LIKE+%2249%22+OR+secteur_na88+LIKE+%2252%22%29&select=code_commune%2Ceffectifs_salaries_2023%2Ceffectifs_salaries_2022&delimiter=%3B&limit=-1 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000022BA8850190>: Failed to resolve 'open.urssaf.fr' ([Errno 11001] getaddrinfo failed)\"))"
+  },
+  "isere_vienne": {
+    "nom": "Isere (38) — port de Vienne (Rhône)",
+    "communes": {
+      "38087": "Chasse-sur-Rhone",
+      "38420": "Saint-Maurice-l'Exil",
+      "38487": "Seyssuel",
+      "38544": "Vienne"
+    },
+    "zone_opsam": 5235,
+    "region_label": "Isere",
+    "coeff": 0.0326,
+    "emploi_bassin": 698,
+    "emploi_region": 21430,
+    "detail_communes": {
+      "Chasse-sur-Rhone (38087)": 336,
+      "Seyssuel (38487)": 278,
+      "Vienne (38544)": 84
+    }
+  },
+  "chalon": {
+    "nom": "Saone-et-Loire (71) — bassin Chalon-sur-Saone (port)",
+    "communes": {
+      "71076": "Chalon-sur-Saone",
+      "71098": "Crissey",
+      "71251": "Saint-Marcel",
+      "71077": "Chagny",
+      "71099": "Changy"
+    },
+    "zone_opsam": 3,
+    "region_label": "Saone-et-Loire",
+    "coeff": 0.119,
+    "emploi_bassin": 1144,
+    "emploi_region": 9613,
+    "detail_communes": {
+      "Chalon-sur-Saone (71076)": 1134,
+      "Chagny (71077)": 10
+    }
+  },
+  "macon": {
+    "nom": "Saone-et-Loire (71) — bassin Macon (port)",
+    "communes": {
+      "71270": "Macon",
+      "71084": "Charnay-les-Macon",
+      "71095": "Creches-sur-Saone",
+      "71080": "La-Chapelle-de-Guinchay",
+      "71559": "Varennes-les-Macon"
+    },
+    "zone_opsam": 5,
+    "region_label": "Saone-et-Loire",
+    "coeff": 0.1427,
+    "emploi_bassin": 1372,
+    "emploi_region": 9613,
+    "detail_communes": {
+      "Macon (71270)": 1327,
+      "Charnay-les-Macon (71084)": 1,
+      "Creches-sur-Saone (71095)": 3,
+      "Varennes-les-Macon (71559)": 41
+    }
+  },
+  "corridor": {
+    "nom": "Corridor Saone-Rhone (ZIP Fos + Sete)",
+    "coeff_fos": 0.1,
+    "coeff_sete": 0.05,
+    "emploi_bassin_fos": 0,
+    "emploi_bassin_sete": 0
+  },
+  "bassins_ventilation": [
+    {
+      "id": "fos",
+      "nom": "ZIP Fos-Etang de Berre",
+      "zone_opsam": 5125,
+      "coeff": 0.1,
+      "source": "urssaf",
+      "color": "#1565C0"
+    },
+    {
+      "id": "sete",
+      "nom": "Bassin portuaire Sete-Thau",
+      "zone_opsam": 5124,
+      "coeff": 0.05,
+      "source": "urssaf",
+      "color": "#F57C00"
+    },
+    {
+      "id": "drome_valence_montelimar",
+      "nom": "Drome (26) — ports Valence / Montélimar",
+      "zone_opsam": 5135,
+      "coeff": 0.1,
+      "source": "urssaf",
+      "color": "#00695C",
+      "note": "Part = emploi fret (APE 49/52) des communes portuaires retenues / emploi fret dep. 26. A ajuster (liste de communes) dans prepare_pagny.py si besoin."
+    },
+    {
+      "id": "isere_vienne",
+      "nom": "Isere (38) — port de Vienne (Rhône)",
+      "zone_opsam": 5235,
+      "coeff": 0.0326,
+      "source": "urssaf",
+      "color": "#5E35B1",
+      "note": "Part = emploi fret (APE 49/52) des communes du pourtour de Vienne / emploi fret dep. 38. A ajuster dans prepare_pagny.py si besoin."
+    },
+    {
+      "id": "chalon",
+      "nom": "Saone-et-Loire (71) — bassin Chalon-sur-Saone (port)",
+      "zone_opsam": 3,
+      "coeff": 0.119,
+      "source": "urssaf",
+      "color": "#2E7D32",
+      "note": "Part = emploi fret (49/52) des communes du bassin Chalon / emploi fret dep. 71. Renseignez `zone_opsam` (agregat OPSAM) via data/ventilation_zones_chalon_macon.json."
+    },
+    {
+      "id": "macon",
+      "nom": "Saone-et-Loire (71) — bassin Macon (port)",
+      "zone_opsam": 5,
+      "coeff": 0.1427,
+      "source": "urssaf",
+      "color": "#6A1B9A",
+      "note": "Part = emploi fret (49/52) des communes du bassin Macon / emploi fret dep. 71. Meme den. que Chalon ; communes a ajuster dans prepare_pagny.py. `zone_opsam` : data/ventilation_zones_chalon_macon.json."
+    },
+    {
+      "id": "pagny_hinterland",
+      "nom": "Influence Aproport / Chalon–Macon–Pagny (optionnel, agreg. OPSAM a renseigner)",
+      "zone_opsam": 0,
+      "coeff": 0.0,
+      "source": "manuel",
+      "color": "#00838F",
+      "note": "Definir zone_opsam d’apres lookup_opsam_ite (meme logique que 5124/5125)."
+    }
+  ]
+}

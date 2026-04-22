@@ -1,0 +1,555 @@
+M1,label_secteur,emploi,nb_etab
+1,Autres materiels transport,1000,10
+1,Caoutchouc/plastique,1636,32
+1,Commerce gros,3303,396
+1,Construction batiments,105,19
+1,Entreposage / services transport,1250,102
+1,Fabrication boissons,10,10
+1,Genie civil,816,42
+1,Ind. alimentaires,1985,220
+1,Industrie automobile,677,32
+1,Industrie chimique,0,0
+1,Industrie papier/carton,0,0
+1,Industries extractives,6,2
+1,Machines/equipements,1998,48
+1,Metallurgie,1,1
+1,Produits metalliques,2953,54
+1,Produits mineraux,379,64
+1,Transports terrestres,8861,213
+1,Travail bois,84,4
+1,Travaux construction spec.,5626,840
+2,Caoutchouc/plastique,1099,45
+2,Commerce gros,3870,467
+2,Construction batiments,767,71
+2,Entreposage / services transport,1784,80
+2,Fabrication boissons,132,11
+2,Genie civil,513,35
+2,Ind. alimentaires,2800,255
+2,Industrie automobile,119,12
+2,Industrie chimique,960,34
+2,Industrie papier/carton,76,3
+2,Industries extractives,5,2
+2,Machines/equipements,127,23
+2,Metallurgie,8,2
+2,Produits metalliques,4759,137
+2,Produits mineraux,882,24
+2,Transports terrestres,4736,260
+2,Travail bois,185,37
+2,Travaux construction spec.,5020,847
+3,Caoutchouc/plastique,0,0
+3,Commerce gros,223,25
+3,Construction batiments,0,0
+3,Entreposage / services transport,54,5
+3,Genie civil,2,2
+3,Ind. alimentaires,166,14
+3,Industrie automobile,37,1
+3,Industrie chimique,53,1
+3,Industries extractives,10,1
+3,Machines/equipements,116,2
+3,Metallurgie,104,3
+3,Produits metalliques,174,10
+3,Produits mineraux,3,1
+3,Transports terrestres,36,10
+3,Travail bois,23,2
+3,Travaux construction spec.,251,68
+4,Autres materiels transport,0,0
+4,Caoutchouc/plastique,62,2
+4,Commerce gros,74,19
+4,Construction batiments,31,3
+4,Entreposage / services transport,5,1
+4,Genie civil,0,0
+4,Ind. alimentaires,233,14
+4,Industrie automobile,0,0
+4,Industrie chimique,73,4
+4,Industrie papier/carton,0,0
+4,Industries extractives,0,0
+4,Machines/equipements,114,5
+4,Metallurgie,61,1
+4,Produits metalliques,339,13
+4,Produits mineraux,24,1
+4,Transports terrestres,243,19
+4,Travail bois,12,2
+4,Travaux construction spec.,207,71
+5,Autres materiels transport,65,1
+5,Caoutchouc/plastique,195,2
+5,Commerce gros,89,12
+5,Construction batiments,0,1
+5,Entreposage / services transport,6,2
+5,Genie civil,77,1
+5,Ind. alimentaires,354,11
+5,Industrie automobile,0,0
+5,Industries extractives,21,2
+5,Machines/equipements,74,1
+5,Metallurgie,377,2
+5,Produits metalliques,254,5
+5,Produits mineraux,21,3
+5,Transports terrestres,14,5
+5,Travail bois,27,1
+5,Travaux construction spec.,215,43
+6,Caoutchouc/plastique,460,20
+6,Commerce gros,5988,644
+6,Construction batiments,522,61
+6,Entreposage / services transport,2300,70
+6,Fabrication boissons,13,3
+6,Genie civil,840,20
+6,Ind. alimentaires,1823,218
+6,Industrie automobile,5264,41
+6,Industries extractives,30,1
+6,Machines/equipements,1963,12
+6,Metallurgie,0,0
+6,Produits metalliques,912,61
+6,Produits mineraux,34,2
+6,Transports terrestres,2407,107
+6,Travail bois,1110,10
+6,Travaux construction spec.,5523,805
+7,Caoutchouc/plastique,30,1
+7,Commerce gros,58,7
+7,Construction batiments,20,1
+7,Fabrication boissons,0,0
+7,Genie civil,59,2
+7,Ind. alimentaires,38,8
+7,Industrie automobile,2,1
+7,Industries extractives,0,0
+7,Machines/equipements,0,0
+7,Metallurgie,0,0
+7,Produits metalliques,215,4
+7,Produits mineraux,2,1
+7,Transports terrestres,66,4
+7,Travail bois,62,4
+7,Travaux construction spec.,101,29
+8,Commerce gros,4,2
+8,Construction batiments,1,1
+8,Genie civil,0,0
+8,Ind. alimentaires,0,0
+8,Industrie chimique,37,1
+8,Machines/equipements,0,0
+8,Produits metalliques,19,2
+8,Produits mineraux,48,2
+8,Transports terrestres,39,3
+8,Travail bois,0,0
+8,Travaux construction spec.,73,15
+9,Caoutchouc/plastique,18,2
+9,Commerce gros,23,5
+9,Construction batiments,0,0
+9,Fabrication boissons,1,1
+9,Ind. alimentaires,5,5
+9,Industrie chimique,0,0
+9,Industries extractives,18,4
+9,Produits metalliques,0,0
+9,Transports terrestres,292,4
+9,Travaux construction spec.,71,21
+10,Caoutchouc/plastique,88,1
+10,Commerce gros,158,31
+10,Construction batiments,4,1
+10,Entreposage / services transport,12,1
+10,Genie civil,43,2
+10,Ind. alimentaires,84,12
+10,Industrie automobile,0,0
+10,Industrie chimique,6,1
+10,Industries extractives,1,1
+10,Machines/equipements,5,2
+10,Metallurgie,42,1
+10,Produits metalliques,91,10
+10,Produits mineraux,9,1
+10,Transports terrestres,199,11
+10,Travail bois,92,3
+10,Travaux construction spec.,237,49
+11,Commerce gros,128,15
+11,Construction batiments,0,0
+11,Entreposage / services transport,23,3
+11,Ind. alimentaires,43,9
+11,Machines/equipements,3,1
+11,Metallurgie,0,0
+11,Produits metalliques,0,0
+11,Produits mineraux,1,1
+11,Transports terrestres,25,3
+11,Travail bois,139,3
+11,Travaux construction spec.,60,19
+12,Caoutchouc/plastique,1489,10
+12,Commerce gros,1658,139
+12,Construction batiments,128,17
+12,Entreposage / services transport,270,29
+12,Fabrication boissons,0,0
+12,Genie civil,407,11
+12,Ind. alimentaires,720,98
+12,Industrie automobile,32,8
+12,Industries extractives,4,1
+12,Machines/equipements,1105,19
+12,Metallurgie,17,1
+12,Produits metalliques,209,23
+12,Produits mineraux,147,9
+12,Transports terrestres,899,70
+12,Travail bois,41,8
+12,Travaux construction spec.,1511,292
+13,Commerce gros,23,2
+13,Genie civil,0,0
+13,Ind. alimentaires,4,1
+13,Industries extractives,2,1
+13,Produits mineraux,13,2
+13,Transports terrestres,5,3
+13,Travaux construction spec.,13,8
+14,Autres materiels transport,7070,14
+14,Caoutchouc/plastique,14,1
+14,Commerce gros,549,144
+14,Construction batiments,112,14
+14,Entreposage / services transport,816,34
+14,Fabrication boissons,0,0
+14,Genie civil,420,10
+14,Ind. alimentaires,528,107
+14,Industrie automobile,16,8
+14,Industrie chimique,0,0
+14,Industrie papier/carton,0,0
+14,Machines/equipements,1268,16
+14,Metallurgie,6069,21
+14,Produits metalliques,5209,106
+14,Produits mineraux,81,22
+14,Transports terrestres,627,91
+14,Travail bois,126,13
+14,Travaux construction spec.,2602,397
+15,Caoutchouc/plastique,0,0
+15,Commerce gros,144,12
+15,Construction batiments,14,1
+15,Entreposage / services transport,1,1
+15,Genie civil,1,1
+15,Ind. alimentaires,52,7
+15,Industrie automobile,0,0
+15,Machines/equipements,273,3
+15,Metallurgie,102,1
+15,Produits metalliques,56,5
+15,Produits mineraux,0,0
+15,Transports terrestres,55,7
+15,Travaux construction spec.,89,23
+16,Caoutchouc/plastique,0,0
+16,Commerce gros,1223,146
+16,Construction batiments,85,13
+16,Entreposage / services transport,270,30
+16,Genie civil,381,13
+16,Ind. alimentaires,626,81
+16,Industrie automobile,6740,8
+16,Industrie chimique,0,0
+16,Industrie papier/carton,6,1
+16,Industries extractives,1,1
+16,Machines/equipements,0,0
+16,Metallurgie,0,0
+16,Produits metalliques,187,10
+16,Produits mineraux,23,6
+16,Transports terrestres,504,30
+16,Travail bois,138,7
+16,Travaux construction spec.,1145,151
+17,Autres materiels transport,5890,20
+17,Caoutchouc/plastique,3,1
+17,Commerce gros,4099,426
+17,Construction batiments,130,34
+17,Entreposage / services transport,487,46
+17,Fabrication boissons,0,0
+17,Genie civil,81,4
+17,Ind. alimentaires,1991,349
+17,Industrie automobile,141,3
+17,Industrie chimique,2,1
+17,Industrie papier/carton,310,10
+17,Industries extractives,0,0
+17,Machines/equipements,16312,61
+17,Metallurgie,14,1
+17,Produits metalliques,1775,49
+17,Produits mineraux,176,16
+17,Transports terrestres,2304,145
+17,Travail bois,23,4
+17,Travaux construction spec.,4170,893
+18,Caoutchouc/plastique,421,24
+18,Commerce gros,11717,669
+18,Construction batiments,460,104
+18,Entreposage / services transport,3353,180
+18,Fabrication boissons,2,1
+18,Genie civil,4499,30
+18,Ind. alimentaires,2928,201
+18,Industrie automobile,232,9
+18,Industrie chimique,63,14
+18,Industrie papier/carton,133,7
+18,Industries extractives,114,13
+18,Machines/equipements,2765,24
+18,Metallurgie,8,1
+18,Produits metalliques,1103,63
+18,Produits mineraux,400,28
+18,Transports terrestres,6294,166
+18,Travail bois,114,15
+18,Travaux construction spec.,5190,765
+19,Caoutchouc/plastique,501,5
+19,Commerce gros,41,11
+19,Construction batiments,1,1
+19,Entreposage / services transport,20,2
+19,Fabrication boissons,0,0
+19,Genie civil,0,0
+19,Ind. alimentaires,31,10
+19,Industrie automobile,0,0
+19,Industrie chimique,35,3
+19,Industrie papier/carton,8,1
+19,Industries extractives,6,1
+19,Machines/equipements,5,3
+19,Metallurgie,2,1
+19,Produits metalliques,38,4
+19,Produits mineraux,0,1
+19,Transports terrestres,64,9
+19,Travail bois,1,1
+19,Travaux construction spec.,238,63
+20,Autres materiels transport,0,0
+20,Caoutchouc/plastique,800,43
+20,Commerce gros,8923,988
+20,Construction batiments,564,132
+20,Entreposage / services transport,3141,113
+20,Fabrication boissons,198,43
+20,Genie civil,1242,37
+20,Ind. alimentaires,3555,422
+20,Industrie automobile,0,0
+20,Industrie chimique,1759,45
+20,Industrie papier/carton,2832,23
+20,Industries extractives,6,1
+20,Machines/equipements,3627,55
+20,Metallurgie,236,12
+20,Produits metalliques,6624,159
+20,Produits mineraux,8791,93
+20,Transports terrestres,12171,348
+20,Travail bois,84,15
+20,Travaux construction spec.,5629,825
+21,Caoutchouc/plastique,82,3
+21,Commerce gros,274,35
+21,Construction batiments,74,7
+21,Entreposage / services transport,110,8
+21,Fabrication boissons,0,0
+21,Genie civil,0,0
+21,Ind. alimentaires,319,33
+21,Industrie automobile,14,2
+21,Industrie papier/carton,45,1
+21,Machines/equipements,1,1
+21,Metallurgie,24,2
+21,Produits metalliques,95,9
+21,Produits mineraux,4,2
+21,Transports terrestres,161,18
+21,Travail bois,11,1
+21,Travaux construction spec.,371,81
+22,Caoutchouc/plastique,23,1
+22,Commerce gros,35,8
+22,Construction batiments,0,0
+22,Entreposage / services transport,52,4
+22,Fabrication boissons,1,1
+22,Genie civil,0,0
+22,Ind. alimentaires,36,7
+22,Industrie automobile,24,1
+22,Industrie chimique,11,1
+22,Industries extractives,57,4
+22,Machines/equipements,23,2
+22,Metallurgie,0,0
+22,Produits metalliques,17,2
+22,Produits mineraux,34,4
+22,Transports terrestres,47,6
+22,Travail bois,63,5
+22,Travaux construction spec.,126,29
+23,Commerce gros,128,17
+23,Construction batiments,36,1
+23,Entreposage / services transport,14,1
+23,Fabrication boissons,5,1
+23,Genie civil,4,1
+23,Ind. alimentaires,128,11
+23,Industrie automobile,0,0
+23,Industrie chimique,5,1
+23,Industries extractives,0,0
+23,Machines/equipements,84,1
+23,Produits metalliques,27,5
+23,Produits mineraux,10,2
+23,Transports terrestres,51,6
+23,Travail bois,30,2
+23,Travaux construction spec.,199,39
+24,Caoutchouc/plastique,197,4
+24,Commerce gros,154,29
+24,Construction batiments,30,3
+24,Entreposage / services transport,166,7
+24,Genie civil,0,0
+24,Ind. alimentaires,108,20
+24,Industrie papier/carton,32,1
+24,Industries extractives,0,0
+24,Machines/equipements,66,3
+24,Metallurgie,36,2
+24,Produits metalliques,232,12
+24,Produits mineraux,5,3
+24,Transports terrestres,149,12
+24,Travail bois,8,1
+24,Travaux construction spec.,568,87
+25,Caoutchouc/plastique,131,4
+25,Commerce gros,42,10
+25,Construction batiments,0,0
+25,Entreposage / services transport,28,3
+25,Fabrication boissons,2,1
+25,Genie civil,12,2
+25,Ind. alimentaires,76,14
+25,Industrie automobile,292,1
+25,Industrie chimique,0,0
+25,Machines/equipements,17,1
+25,Produits metalliques,314,4
+25,Produits mineraux,17,2
+25,Transports terrestres,449,10
+25,Travail bois,24,1
+25,Travaux construction spec.,262,48
+26,Autres materiels transport,324,3
+26,Caoutchouc/plastique,118,4
+26,Commerce gros,4729,487
+26,Construction batiments,1072,99
+26,Entreposage / services transport,3897,143
+26,Fabrication boissons,459,21
+26,Genie civil,1844,40
+26,Ind. alimentaires,2666,315
+26,Industrie automobile,33,9
+26,Industrie chimique,168,12
+26,Industrie papier/carton,18,1
+26,Industries extractives,23,9
+26,Machines/equipements,753,21
+26,Metallurgie,0,0
+26,Produits metalliques,748,43
+26,Produits mineraux,139,16
+26,Transports terrestres,10667,239
+26,Travail bois,6,1
+26,Travaux construction spec.,9445,924
+27,Autres materiels transport,3124,34
+27,Caoutchouc/plastique,3189,22
+27,Commerce gros,41349,4333
+27,Construction batiments,9357,855
+27,Entreposage / services transport,37660,1318
+27,Fabrication boissons,4197,174
+27,Genie civil,12436,298
+27,Ind. alimentaires,20443,2809
+27,Industrie automobile,818,38
+27,Industrie chimique,2174,99
+27,Industrie papier/carton,822,10
+27,Industries extractives,359,75
+27,Machines/equipements,5010,169
+27,Metallurgie,156,11
+27,Produits metalliques,7400,330
+27,Produits mineraux,451,101
+27,Transports terrestres,101453,2170
+27,Travail bois,124,15
+27,Travaux construction spec.,60943,7331
+28,Caoutchouc/plastique,622,11
+28,Commerce gros,1437,84
+28,Construction batiments,93,25
+28,Entreposage / services transport,618,20
+28,Fabrication boissons,9,3
+28,Genie civil,57,3
+28,Ind. alimentaires,3110,111
+28,Industrie automobile,0,0
+28,Industrie chimique,13,4
+28,Industrie papier/carton,78,2
+28,Industries extractives,4,1
+28,Machines/equipements,59,5
+28,Produits metalliques,590,23
+28,Produits mineraux,284,4
+28,Transports terrestres,810,63
+28,Travail bois,54,7
+28,Travaux construction spec.,1596,289
+29,Caoutchouc/plastique,2,2
+29,Commerce gros,2218,267
+29,Construction batiments,45,7
+29,Entreposage / services transport,711,29
+29,Fabrication boissons,396,18
+29,Genie civil,62,2
+29,Ind. alimentaires,1181,63
+29,Industrie automobile,4,2
+29,Industrie chimique,210,2
+29,Industrie papier/carton,0,0
+29,Machines/equipements,314,10
+29,Produits metalliques,180,12
+29,Produits mineraux,0,0
+29,Transports terrestres,320,34
+29,Travail bois,114,10
+29,Travaux construction spec.,424,97
+30,Caoutchouc/plastique,525,12
+30,Commerce gros,974,90
+30,Construction batiments,100,24
+30,Entreposage / services transport,359,21
+30,Fabrication boissons,9,3
+30,Genie civil,176,8
+30,Ind. alimentaires,2915,111
+30,Industrie automobile,0,0
+30,Industrie chimique,1618,6
+30,Industrie papier/carton,57,2
+30,Machines/equipements,54,6
+30,Metallurgie,10,1
+30,Produits metalliques,661,25
+30,Produits mineraux,210,6
+30,Transports terrestres,721,53
+30,Travail bois,32,7
+30,Travaux construction spec.,2062,313
+31,Caoutchouc/plastique,0,0
+31,Commerce gros,61,11
+31,Entreposage / services transport,0,0
+31,Ind. alimentaires,45,8
+31,Industries extractives,12,1
+31,Produits metalliques,4,1
+31,Produits mineraux,0,0
+31,Transports terrestres,66,4
+31,Travail bois,0,0
+31,Travaux construction spec.,111,31
+32,Commerce gros,26,3
+32,Construction batiments,0,0
+32,Ind. alimentaires,14,3
+32,Produits mineraux,0,0
+32,Transports terrestres,49,4
+32,Travaux construction spec.,21,12
+33,Commerce gros,12,6
+33,Construction batiments,0,0
+33,Entreposage / services transport,36,2
+33,Fabrication boissons,1,1
+33,Ind. alimentaires,19,3
+33,Industries extractives,0,0
+33,Produits mineraux,0,0
+33,Transports terrestres,51,2
+33,Travail bois,3,1
+33,Travaux construction spec.,55,10
+34,Caoutchouc/plastique,50,1
+34,Commerce gros,86,9
+34,Construction batiments,49,2
+34,Entreposage / services transport,4,1
+34,Fabrication boissons,0,0
+34,Genie civil,0,0
+34,Ind. alimentaires,87,7
+34,Machines/equipements,84,1
+34,Metallurgie,0,0
+34,Produits metalliques,13,3
+34,Produits mineraux,0,0
+34,Transports terrestres,83,9
+34,Travaux construction spec.,144,27
+35,Autres materiels transport,281,2
+35,Caoutchouc/plastique,472,12
+35,Commerce gros,2012,244
+35,Construction batiments,541,45
+35,Entreposage / services transport,682,44
+35,Fabrication boissons,0,0
+35,Genie civil,980,48
+35,Ind. alimentaires,2491,233
+35,Industrie automobile,11894,42
+35,Industrie chimique,46,6
+35,Industrie papier/carton,96,1
+35,Industries extractives,16,4
+35,Machines/equipements,199,8
+35,Metallurgie,307,4
+35,Produits metalliques,2437,72
+35,Produits mineraux,129,19
+35,Transports terrestres,1499,144
+35,Travail bois,41,5
+35,Travaux construction spec.,4785,515
+36,Autres materiels transport,6,1
+36,Caoutchouc/plastique,4563,57
+36,Commerce gros,27731,3477
+36,Construction batiments,7477,606
+36,Entreposage / services transport,8802,405
+36,Fabrication boissons,525,133
+36,Genie civil,2609,159
+36,Ind. alimentaires,19391,1858
+36,Industrie automobile,2532,107
+36,Industrie chimique,0,0
+36,Industrie papier/carton,192,5
+36,Industries extractives,13,3
+36,Machines/equipements,5438,136
+36,Metallurgie,858,26
+36,Produits metalliques,34391,629
+36,Produits mineraux,775,82
+36,Transports terrestres,33413,987
+36,Travail bois,836,53
+36,Travaux construction spec.,19582,3554

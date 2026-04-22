@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (ne jamais committer de jetons réels)
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Outils / IDE
+.idea/
+.vscode/
+*.swp
+
+# Sorties locales de test (décommenter si besoin)
+# output_dev/
+# *_dev.csv
