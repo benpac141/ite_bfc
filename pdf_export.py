@@ -7,6 +7,9 @@ Style aligné sur le modèle départemental (analyse_flux_complet_dep_sankey.py)
 
 from pathlib import Path
 from io import BytesIO
+import logging
+
+import plotly.graph_objects as go
 
 from reportlab.platypus import (
     SimpleDocTemplate,
@@ -34,26 +37,83 @@ except ImportError:
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _fig_to_png_bytes(fig, width=1600, height=900, scale=3) -> bytes | None:
-    """Exporte une figure Plotly en PNG haute résolution via kaleido."""
+_log = logging.getLogger(__name__)
+
+
+def _prepare_fig_for_raster_export(fig) -> "go.Figure | None":
+    """Copie la figure et force polices + fonds lisibles pour Chromium (ex. cloud Linux)."""
+    if fig is None:
+        return None
     try:
-        return fig.to_image(
-            format="png", width=width, height=height,
-            scale=scale, engine="kaleido",
+        if not getattr(fig, "data", None) or len(fig.data) == 0:
+            return None
+    except Exception:
+        return None
+    try:
+        out = go.Figure(fig)
+    except Exception:
+        out = fig  # type: ignore[assignment]
+    try:
+        out.update_layout(
+            font=dict(
+                family="Arial, Helvetica, Liberation Sans, DejaVu Sans, sans-serif",
+            ),
+            paper_bgcolor="white",
+            plot_bgcolor="white",
         )
     except Exception:
+        pass
+    return out
+
+
+def _fig_to_png_bytes(fig, width=1600, height=900, scale=3) -> bytes | None:
+    """Exporte une figure Plotly en PNG via kaleido, avec repli (taille / scale) sur environnements contraints (cloud).
+
+    L'ancien mode (une seule tentative, *scale* élevé) provoquait souvent l'échec silencieux
+    (mémoire Chromium) → pages PDF vides malgré titres/pieds.
+    """
+    fig_e = _prepare_fig_for_raster_export(fig)
+    if fig_e is None:
+        return None
+
+    # Largeur/hauteur demandée en premier réduit, puis repli — *scale* bas en priorité (évite OOM).
+    w0, h0, s0 = max(400, int(width)), max(300, int(height)), max(1, min(3, int(scale)))
+    attempts: list[tuple[int, int, int]] = [
+        (min(w0, 1000), min(h0, 650), 1),
+        (800, 500, 1),
+        (1200, 720, 1),
+        (w0, h0, 1),
+        (min(w0, 1400), min(h0, 900), 2),
+    ]
+    last_err: Exception | None = None
+    for w, h, sc in attempts:
         try:
-            return fig.to_image(
-                format="png", width=width, height=height, scale=2,
+            b = fig_e.to_image(
+                format="png",
+                width=w,
+                height=h,
+                scale=sc,
+                engine="kaleido",
             )
-        except Exception:
-            try:
-                return fig.to_image(
-                    format="png", width=width, height=height, scale=1,
-                )
-            except Exception as e:
-                print(f"  Erreur export image : {e}")
-                return None
+            if b and len(b) > 200:
+                return b
+        except Exception as e:  # noqa: BLE001
+            last_err = e
+        try:
+            b = fig_e.to_image(
+                format="png",
+                width=w,
+                height=h,
+                scale=sc,
+            )
+            if b and len(b) > 200:
+                return b
+        except Exception as e:  # noqa: BLE001
+            last_err = e
+    if last_err is not None:
+        _log.warning("Export PNG (kaleido) echec : %s", last_err, exc_info=False)
+        print(f"  Erreur export image (tentatives epuisées) : {last_err}")
+    return None
 
 
 def _make_styles():

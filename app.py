@@ -11,6 +11,7 @@ Pages :
 import sys
 from pathlib import Path
 
+import gc
 import os
 import streamlit as st
 import pandas as pd
@@ -665,6 +666,7 @@ elif page == "Analyse par distance":
                     pdfs.append(b)
             except Exception as e:
                 st.warning(f"MZ {mz} : {e}")
+            gc.collect()
 
         progress.empty()
         if pdfs:
