@@ -76,7 +76,7 @@ from visualizations import (
 from pdf_export import (
     generer_rapport_macrozone,
     generer_rapport_global,
-    fusionner_pdfs,
+    fusionner_pdfs_bytes,
 )
 
 # =========================================================================
@@ -356,7 +356,7 @@ if page == "Vue d'ensemble":
             "text/csv",
         )
     with col_exp2:
-        if st.button(":material/picture_as_pdf: Rapport PDF global"):
+        if st.button(":material/picture_as_pdf: Rapport PDF global", key="btn_pdf_global"):
             with st.spinner("Generation du PDF..."):
                 try:
                     gdf = _charger_shp(chemin_shp)
@@ -366,15 +366,21 @@ if page == "Vue d'ensemble":
                     )
                     fig_h = creer_heatmap_comparative(metriques, labels_mz)
                     fig_s = creer_scatter_transit_pl(metriques, labels_mz)
-                    sortie = (
-                        Path(__file__).parent.parent.parent
-                        / "OUTPUTS" / "macrozone" / "pdf"
-                        / "rapport_global_macrozones.pdf"
+                    pdf_b = generer_rapport_global(
+                        fig_c, fig_h, fig_s, "", chemin_sortie=None
                     )
-                    generer_rapport_global(fig_c, fig_h, fig_s, "", str(sortie))
-                    st.success(f"PDF exporte : {sortie}")
+                    if pdf_b:
+                        st.session_state["dl_pdf_global_bytes"] = pdf_b
                 except Exception as e:
                     st.error(f"Erreur : {e}")
+        if st.session_state.get("dl_pdf_global_bytes"):
+            st.download_button(
+                "Télécharger le PDF (synthèse globale)",
+                st.session_state["dl_pdf_global_bytes"],
+                file_name="rapport_global_macrozones.pdf",
+                mime="application/pdf",
+                key="dl_rapport_global",
+            )
 
 
 # =========================================================================
@@ -488,22 +494,34 @@ elif page == "Analyse par macrozone":
             st.info("Pas de donnees emploi fret pour cette macrozone.")
 
     st.divider()
-    if st.button(":material/picture_as_pdf: Rapport PDF macrozone"):
+    if st.button(":material/picture_as_pdf: Rapport PDF macrozone", key="btn_pdf_mz"):
         with st.spinner("Generation du PDF..."):
             try:
-                sortie = (
-                    Path(__file__).parent.parent.parent
-                    / "OUTPUTS" / "macrozone" / "pdf"
-                    / f"macrozone_{mz_selectionnee}.pdf"
+                pdf_b = generer_rapport_macrozone(
+                    mz_selectionnee,
+                    nom_mz,
+                    fig_sankey,
+                    fig_donut,
+                    fig_dist,
+                    fig_pl_dist,
+                    repartition,
+                    chemin_sortie=None,
                 )
-                generer_rapport_macrozone(
-                    mz_selectionnee, nom_mz,
-                    fig_sankey, fig_donut, fig_dist, fig_pl_dist,
-                    repartition, str(sortie),
-                )
-                st.success(f"PDF exporte : {sortie}")
+                if pdf_b:
+                    st.session_state["dl_pdf_mz_bytes"] = pdf_b
+                    st.session_state["dl_pdf_mz_name"] = (
+                        f"macrozone_{mz_selectionnee}.pdf"
+                    )
             except Exception as e:
                 st.error(f"Erreur : {e}")
+    if st.session_state.get("dl_pdf_mz_bytes") is not None:
+        st.download_button(
+            "Télécharger le PDF (macrozone courante)",
+            st.session_state["dl_pdf_mz_bytes"],
+            file_name=st.session_state.get("dl_pdf_mz_name", "macrozone.pdf"),
+            mime="application/pdf",
+            key="dl_rapport_mz",
+        )
 
 
 # =========================================================================
@@ -622,12 +640,12 @@ elif page == "Analyse par distance":
             st.info("Selectionnez au moins une macrozone.")
 
     st.divider()
-    if st.button(":material/picture_as_pdf: Generer tous les PDF"):
+    if st.button(
+        ":material/picture_as_pdf: Generer tous les PDF (telechargement unique)",
+        key="btn_all_pdf_mz",
+    ):
         progress = st.progress(0, text="Generation en cours...")
-        dossier_pdf = (
-            Path(__file__).parent.parent.parent / "OUTPUTS" / "macrozone" / "pdf"
-        )
-        chemins = []
+        pdfs: list[bytes] = []
         for i, mz in enumerate(macrozones_dispo):
             progress.progress((i + 1) / len(macrozones_dispo), text=f"Macrozone {mz}...")
             try:
@@ -640,19 +658,31 @@ elif page == "Analyse par distance":
                 f_pl = creer_barres_distance_pl(
                     preparer_donnees_distance_pl(df_raw, mz), "Echange"
                 )
-                chemin = dossier_pdf / f"macrozone_{mz}.pdf"
-                generer_rapport_macrozone(
-                    mz, nom, f_san, f_don, f_dist, f_pl, rep, str(chemin)
+                b = generer_rapport_macrozone(
+                    mz, nom, f_san, f_don, f_dist, f_pl, rep, chemin_sortie=None
                 )
-                chemins.append(chemin)
+                if b:
+                    pdfs.append(b)
             except Exception as e:
                 st.warning(f"MZ {mz} : {e}")
 
-        if chemins:
-            rapport_complet = dossier_pdf / "rapport_complet_macrozones.pdf"
-            fusionner_pdfs(chemins, rapport_complet)
-            st.success(f"{len(chemins)} PDF + rapport complet generes")
         progress.empty()
+        if pdfs:
+            try:
+                st.session_state["dl_pdf_complet"] = fusionner_pdfs_bytes(pdfs)
+                st.success(
+                    f"PDF complet : {len(pdfs)} macrozone(s) — telechargement ci-dessous."
+                )
+            except Exception as e:
+                st.error(f"Fusion PDF : {e}")
+    if st.session_state.get("dl_pdf_complet") is not None:
+        st.download_button(
+            "Telecharger le rapport complet (toutes les macrozones)",
+            st.session_state["dl_pdf_complet"],
+            file_name="rapport_complet_macrozones.pdf",
+            mime="application/pdf",
+            key="dl_pdf_toutes_mz",
+        )
 
 
 # =========================================================================
