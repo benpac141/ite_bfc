@@ -92,16 +92,24 @@ def generer_rapport_macrozone(
     fig_distance,
     fig_pl_detail,
     repartition: dict,
-    chemin_sortie: str | Path,
-):
-    """Rapport PDF individuel — layout Sankey+Donut identique au modèle dep."""
-    chemin_sortie = Path(chemin_sortie)
-    chemin_sortie.parent.mkdir(parents=True, exist_ok=True)
+    chemin_sortie: str | Path | None,
+) -> bytes | None:
+    """Rapport PDF individuel — layout Sankey+Donut identique au modèle dep.
+
+    * ``chemin_sortie`` fourni : écrit le fichier sur le disque (hors conteneur read-only), retourne ``None``.
+    * ``chemin_sortie`` ``None`` : génère en **mémoire** (téléchargement Streamlit) et retourne les **bytes** du PDF.
+    """
+    use_mem = chemin_sortie is None
+    if not use_mem:
+        chemin_sortie = Path(chemin_sortie)  # type: ignore[assignment]
+        chemin_sortie.parent.mkdir(parents=True, exist_ok=True)
+    buf = BytesIO() if use_mem else None
+    dest = buf if use_mem else str(chemin_sortie)
 
     titre_style, sous_titre_style, info_style, footer_style = _make_styles()
 
     doc = SimpleDocTemplate(
-        str(chemin_sortie),
+        dest,
         pagesize=landscape(A4),
         title=f"Macrozone {code_mz} — Analyse trafic",
         author="Outil OPSAM — Atmo BFC",
@@ -197,9 +205,14 @@ def generer_rapport_macrozone(
 
     try:
         doc.build(story)
-        print(f"  PDF macrozone exporté : {chemin_sortie.name}")
+        if use_mem and buf is not None:
+            return buf.getvalue()
+        if not use_mem and chemin_sortie is not None:
+            print(f"  PDF macrozone exporté : {Path(chemin_sortie).name}")
     except Exception as e:
         print(f"  Erreur PDF macrozone : {e}")
+        raise
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -211,16 +224,24 @@ def generer_rapport_global(
     fig_heatmap,
     fig_scatter,
     tableau_html: str,
-    chemin_sortie: str | Path,
-):
-    """PDF de synthèse globale — haute résolution."""
-    chemin_sortie = Path(chemin_sortie)
-    chemin_sortie.parent.mkdir(parents=True, exist_ok=True)
+    chemin_sortie: str | Path | None,
+) -> bytes | None:
+    """PDF de synthèse globale — haute résolution.
+
+    * ``chemin_sortie`` fourni : écrit le fichier, retourne ``None``.
+    * ``None`` : retourne les **bytes** (téléchargement côté navigateur).
+    """
+    use_mem = chemin_sortie is None
+    if not use_mem:
+        p = Path(chemin_sortie)  # type: ignore[arg-type]
+        p.parent.mkdir(parents=True, exist_ok=True)
+    buf = BytesIO() if use_mem else None
+    dest = buf if use_mem else str(chemin_sortie)
 
     titre_style, sous_titre_style, info_style, footer_style = _make_styles()
 
     doc = SimpleDocTemplate(
-        str(chemin_sortie),
+        dest,
         pagesize=landscape(A4),
         title="Synthèse macrozones OPSAM",
         author="Outil OPSAM — Atmo BFC",
@@ -274,9 +295,14 @@ def generer_rapport_global(
 
     try:
         doc.build(story)
-        print(f"  PDF global exporté : {chemin_sortie.name}")
+        if use_mem and buf is not None:
+            return buf.getvalue()
+        if not use_mem and chemin_sortie is not None:
+            print(f"  PDF global exporté : {Path(chemin_sortie).name}")
     except Exception as e:
         print(f"  Erreur PDF global : {e}")
+        raise
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -300,3 +326,17 @@ def fusionner_pdfs(chemins_pdf: list[Path], chemin_sortie: Path):
     with open(chemin_sortie, "wb") as f:
         writer.write(f)
     print(f"  PDF fusionné : {chemin_sortie.name} ({len(writer.pages)} pages)")
+
+
+def fusionner_pdfs_bytes(pdf_bytes_list: list[bytes]) -> bytes:
+    """Fusionne des PDF en **mémoire** (Streamlit, pas d’écriture sur le dépôt / Git)."""
+    if not PdfWriter or not PdfReader:
+        raise RuntimeError("pypdf / PyPDF2 requis pour la fusion des PDF")
+    w = PdfWriter()
+    for raw in pdf_bytes_list:
+        r = PdfReader(BytesIO(raw))
+        for page in r.pages:
+            w.add_page(page)
+    out = BytesIO()
+    w.write(out)
+    return out.getvalue()

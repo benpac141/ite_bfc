@@ -622,10 +622,27 @@ _AIRES_CM_NAS = Path(
     r"\\nas-bfc\COMMUN\21_MOBILITE\21.4_PROJETS\DREAL\2025-2026_MISSION_DREAL"
     r"\2_INPUT\DATA\PAGNY_REPORT\aire_60min_chalon_macon"
 )
-# Par défaut : U: s’il existe, sinon miroir NAS. Surchargé par MACROZONE_AIRES_60M_CHALON_MACON_DIR
+
+
+def _default_aires_60m_chalon_macon_dir() -> Path:
+    """Défaut : dossier **dans le dépôt** (Streamlit Cloud) si présent, sinon U:, sinon NAS.
+
+    Surcharge : variable ``MACROZONE_AIRES_60M_CHALON_MACON_DIR`` (``_path_env``).
+    """
+    for p in (
+        _data_local("aire_60min_chalon_macon"),
+        _ROOT / "data" / "bundle_publication" / "geojson" / "aire_60min_chalon_macon",
+    ):
+        if p.is_dir():
+            return p
+    if _AIRES_CM_U.is_dir():
+        return _AIRES_CM_U
+    return _AIRES_CM_NAS
+
+
 CHEMIN_AIRES_60M_CHALON_MACON = _path_env(
     "MACROZONE_AIRES_60M_CHALON_MACON_DIR",
-    _AIRES_CM_U if _AIRES_CM_U.is_dir() else _AIRES_CM_NAS,
+    _default_aires_60m_chalon_macon_dir(),
 )
 
 
