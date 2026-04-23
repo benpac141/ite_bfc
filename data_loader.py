@@ -29,6 +29,16 @@ def _path_env(ename: str, default: Path) -> Path:
 def _data_local(name: str) -> Path:
     return _ROOT / "data" / name
 
+
+def _defaut_chemin_data(local: Path, legacy: Path | None = None) -> Path:
+    """Défaut : fichier versionné dans ``data/``. Repli *legacy* uniquement si le fichier existe (ex. poste de dev)."""
+    if local.is_file():
+        return local
+    if legacy is not None and legacy.is_file():
+        return legacy
+    return local
+
+
 # ---------------------------------------------------------------------------
 # Constantes
 # ---------------------------------------------------------------------------
@@ -54,17 +64,17 @@ FLUX_LABELS = {
     "I": "Interne",
 }
 
-# Chemins par defaut : priorite MACROZONE_* (env) > data/local/ > legacies reseau
+# Chemins par defaut : env MACROZONE_* > ``data/`` du dépôt > chemins absolus *uniquement si le fichier existe* (évite c:\… sur le cloud)
 _CSV_LOCAL = _data_local("macrozone_test_ITE.csv")
 _CSV_LEGACY = Path(r"c:\Users\bpauc\Desktop\macrozone_test_ITE.csv")
-CHEMIN_CSV_DEFAUT = _path_env("MACROZONE_CSV", _CSV_LOCAL if _CSV_LOCAL.exists() else _CSV_LEGACY)
+CHEMIN_CSV_DEFAUT = _path_env("MACROZONE_CSV", _defaut_chemin_data(_CSV_LOCAL, _CSV_LEGACY))
 
 _SHP_LOCAL = _data_local("opsam_zonage_metazone_ite_serm.shp")
 _SHP_LEGACY = Path(
     r"U:\21_MOBILITE\21.4_PROJETS\DREAL\2025-2026_MISSION_DREAL"
     r"\2_INPUT\DATA\metazones_ITE_SERM\opsam_zonage_metazone_ite_serm.shp"
 )
-CHEMIN_SHP_DEFAUT = _path_env("MACROZONE_SHP", _SHP_LOCAL if _SHP_LOCAL.exists() else _SHP_LEGACY)
+CHEMIN_SHP_DEFAUT = _path_env("MACROZONE_SHP", _defaut_chemin_data(_SHP_LOCAL, _SHP_LEGACY))
 CHEMIN_NB_PL = Path(__file__).parent / "nb_pl_par_macrozone.csv"
 CHEMIN_EMPLOI_FRET = Path(__file__).parent / "emploi_fret_par_macrozone.csv"
 CHEMIN_EMPLOI_DETAIL = Path(__file__).parent / "emploi_fret_detail_par_macrozone.csv"
@@ -76,7 +86,9 @@ _CHEMIN_SHP_ITE_NAS = Path(
     r"\\nas-bfc\COMMUN\21_MOBILITE\21.4_PROJETS\DREAL\2025-2026_MISSION_DREAL"
     r"\2_INPUT\DATA\ITE et plateformes\shp\ITE_BFC.shp"
 )
-CHEMIN_SHP_ITE = _path_env("MACROZONE_ITE_SHP", _ITE_SHP_LOCAL if _ITE_SHP_LOCAL.exists() else _CHEMIN_SHP_ITE_NAS)
+CHEMIN_SHP_ITE = _path_env(
+    "MACROZONE_ITE_SHP", _defaut_chemin_data(_ITE_SHP_LOCAL, _CHEMIN_SHP_ITE_NAS)
+)
 CHEMIN_COURS_DETAIL = Path(__file__).parent / "cours_marchandise_detail.csv"
 
 
