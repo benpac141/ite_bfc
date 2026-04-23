@@ -3,7 +3,9 @@ pandas>=2.0
 geopandas>=1.0
 plotly>=6.0
 reportlab>=4.0
-kaleido
+# Kaleido 1.x exige un Chrome systeme (souvent absent / casse sur Streamlit Cloud).
+# 0.2.x embarque le moteur -> fig.to_image() fiable pour les PDF.
+kaleido>=0.2.1,<1.0.0
 pypdf>=4.0
 openpyxl>=3.1
 Pillow>=10.0

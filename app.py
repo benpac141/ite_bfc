@@ -18,6 +18,12 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+# Avant plotly (visualizations) : enregistre le binaire kaleido 0.2 pour to_image (Streamlit / cloud).
+try:
+    import kaleido  # noqa: F401
+except ImportError:
+    pass
+
 from data_loader import (
     CHEMIN_CSV_DEFAUT,
     CHEMIN_SHP_DEFAUT,

@@ -11,6 +11,12 @@ import logging
 
 import plotly.graph_objects as go
 
+# Cloud / Colab : enregistre le binaire kaleido 0.2 *avant* to_image (sinon moteur introuvable).
+try:
+    import kaleido  # noqa: F401
+except ImportError:
+    pass
+
 from reportlab.platypus import (
     SimpleDocTemplate,
     Paragraph,
@@ -38,6 +44,11 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 _log = logging.getLogger(__name__)
+
+def _is_valid_png(b: bytes | None) -> bool:
+    if not b or len(b) < 32:
+        return False
+    return b[:8] == b"\x89PNG\r\n\x1a\n"
 
 
 def _prepare_fig_for_raster_export(fig) -> "go.Figure | None":
@@ -77,7 +88,7 @@ def _fig_to_png_bytes(fig, width=1600, height=900, scale=3) -> bytes | None:
         return None
 
     # Largeur/hauteur demandée en premier réduit, puis repli — *scale* bas en priorité (évite OOM).
-    w0, h0, s0 = max(400, int(width)), max(300, int(height)), max(1, min(3, int(scale)))
+    w0, h0 = max(400, int(width)), max(300, int(height))
     attempts: list[tuple[int, int, int]] = [
         (min(w0, 1000), min(h0, 650), 1),
         (800, 500, 1),
@@ -87,29 +98,46 @@ def _fig_to_png_bytes(fig, width=1600, height=900, scale=3) -> bytes | None:
     ]
     last_err: Exception | None = None
     for w, h, sc in attempts:
-        try:
-            b = fig_e.to_image(
-                format="png",
-                width=w,
-                height=h,
-                scale=sc,
-                engine="kaleido",
-            )
-            if b and len(b) > 200:
-                return b
-        except Exception as e:  # noqa: BLE001
-            last_err = e
-        try:
-            b = fig_e.to_image(
-                format="png",
-                width=w,
-                height=h,
-                scale=sc,
-            )
-            if b and len(b) > 200:
-                return b
-        except Exception as e:  # noqa: BLE001
-            last_err = e
+        for exporter in ("to_image", "write_image"):
+            try:
+                if exporter == "to_image":
+                    b = fig_e.to_image(
+                        format="png",
+                        width=w,
+                        height=h,
+                        scale=sc,
+                        engine="kaleido",
+                    )
+                else:
+                    buf = BytesIO()
+                    fig_e.write_image(
+                        buf,
+                        format="png",
+                        width=w,
+                        height=h,
+                        scale=sc,
+                        engine="kaleido",
+                    )
+                    buf.seek(0)
+                    b = buf.getvalue()
+                if _is_valid_png(b):
+                    return b
+            except Exception as e:  # noqa: BLE001
+                last_err = e
+        # Dernier repli : moteur implicite (comportement plotly)
+        for exporter in ("to_image", "write_image"):
+            try:
+                if exporter == "to_image":
+                    b = fig_e.to_image(format="png", width=w, height=h, scale=sc)
+                else:
+                    buf = BytesIO()
+                    fig_e.write_image(buf, format="png", width=w, height=h, scale=sc)
+                    buf.seek(0)
+                    b = buf.getvalue()
+                if _is_valid_png(b):
+                    return b
+            except Exception as e:  # noqa: BLE001
+                last_err = e
     if last_err is not None:
         _log.warning("Export PNG (kaleido) echec : %s", last_err, exc_info=False)
         print(f"  Erreur export image (tentatives epuisées) : {last_err}")
