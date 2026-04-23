@@ -1,0 +1,5 @@
+{
+  "zone_opsam_chalon": 0,
+  "zone_opsam_macon": 0,
+  "comment": "Optionnel si les onglets zone_chalon / zone_macon des Excel PAGNY_REPORT (liste_zones_*_60min.xlsx) contiennent déjà l'ID d'agrégat : prepare_pagny le lit en automatique. Sinon, copiez en ventilation_zones_chalon_macon.json. Variables : BASSIN_VENTIL_ZONE_*, PAGNY_REPORT, BASSIN_VENTIL_SHEET_CHALON / MACON."
+}

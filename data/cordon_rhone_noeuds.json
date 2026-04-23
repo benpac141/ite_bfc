@@ -1,0 +1,32 @@
+{
+  "description": "Parametrage des noeuds et cordons vallée du Rhône / Saône (hors génération auto Fos-Sete).",
+  "merge_strategy": "separate_cordons",
+  "notes_non_double_comptage": "Si vous unionnez plusieurs isochrones (ex. Chalon + Mâcon + Pagny), un même couple (I,J) peut compter dans plusieurs cordons. Soit des cordons exclusifs, soit ne pas sommer les totaux « bruts » entre nœuds.",
+  "geojson_chalandise_60min": {
+    "dossier_defaut_u": "U:/21_MOBILITE/21.4_PROJETS/DREAL/2025-2026_MISSION_DREAL/2_INPUT/DATA/PAGNY_REPORT/aire_60min_chalon_macon",
+    "remarque": "Un fichier .geojson par port (noms contenant chalon / macon pour la legende) ; carte dans l app Report fluvial"
+  },
+  "noeuds": [
+    {
+      "id": "pagny",
+      "label": "Isochrone 1h — Pagny (686 zones OPSAM)",
+      "zones_file": "Excel PAGNY_REPORT : liste_zones_pagny60min_distincation_paca.xlsx, feuille zone_pagny"
+    },
+    {
+      "id": "chalon",
+      "label": "A définir — Chalon-sur-Saône",
+      "zones_csv_example": "zones_noeud_chalon.example.csv",
+      "action": "Créer une colonne d’IDs de zones OPSAM (même grammaire que Pagny) ; plugger dans prepare_pagny (réplication du pipeline) ou un second export CSV `cordon` + colonne."
+    },
+    {
+      "id": "macon",
+      "label": "A définir — Mâcon",
+      "zones_csv_example": "zones_noeud_macon.example.csv",
+      "action": "Idem Chalon : liste OPSAM + lookup_dep_com_epci_macrozone."
+    }
+  ],
+  "references_fichiers": {
+    "prepare_pagny": "prepare_pagny.py",
+    "ventilation": "pagny_ventilation.json, clef bassins_ventilation"
+  }
+}
