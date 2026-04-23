@@ -179,9 +179,10 @@ with st.sidebar:
             help="CSV de synthese produit par OPSAM",
         )
         chemin_shp = st.text_input(
-            "Shapefile macrozone",
+            "Zonage macro (SHP, GeoJSON, GPKG ou URL https)",
             value=str(CHEMIN_SHP_DEFAUT),
-            help="Shapefile contenant le champ MA_ITE",
+            help="Fichier lu par GeoPandas : .shp, .geojson, .gpkg ou variable MACROZONE_SHP. "
+            "Défaut : data/opsam_zonage_metazone_ite_serm.* (priorité .geojson si présent).",
         )
 
     try:

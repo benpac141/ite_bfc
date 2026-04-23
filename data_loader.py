@@ -69,12 +69,39 @@ _CSV_LOCAL = _data_local("macrozone_test_ITE.csv")
 _CSV_LEGACY = Path(r"c:\Users\bpauc\Desktop\macrozone_test_ITE.csv")
 CHEMIN_CSV_DEFAUT = _path_env("MACROZONE_CSV", _defaut_chemin_data(_CSV_LOCAL, _CSV_LEGACY))
 
-_SHP_LOCAL = _data_local("opsam_zonage_metazone_ite_serm.shp")
 _SHP_LEGACY = Path(
     r"U:\21_MOBILITE\21.4_PROJETS\DREAL\2025-2026_MISSION_DREAL"
     r"\2_INPUT\DATA\metazones_ITE_SERM\opsam_zonage_metazone_ite_serm.shp"
 )
-CHEMIN_SHP_DEFAUT = _path_env("MACROZONE_SHP", _defaut_chemin_data(_SHP_LOCAL, _SHP_LEGACY))
+
+
+def _fichier_zonage_macrozone_dans_data() -> Path:
+    """Même nom de base : **GeoJSON / GPKG d’abord** (fichier allégé, cloud), shapefile en dernier repli.
+
+    Ainsi, si ``.shp`` et ``.geojson`` coexistent dans ``data/``, c’est le GeoJSON qui est utilisé.
+    """
+    for name in (
+        "opsam_zonage_metazone_ite_serm.geojson",
+        "opsam_zonage_metazone_ite_serm.gpkg",
+        "opsam_zonage_metazone_ite_serm.shp",
+    ):
+        p = _data_local(name)
+        if p.is_file():
+            return p
+    return _data_local("opsam_zonage_metazone_ite_serm.geojson")
+
+
+def _resolve_chemin_macrozone_shp() -> str:
+    """Chemin local ou **URL** ``https://...`` (GeoJSON / GeoPackage / zip) : ne pas passer par ``Path`` pour les URLs."""
+    v = (os.environ.get("MACROZONE_SHP") or "").strip()
+    if v:
+        return v
+    p = _defaut_chemin_data(_fichier_zonage_macrozone_dans_data(), _SHP_LEGACY)
+    return str(p)
+
+
+# Chaîne (chemin ou URL) — utilisée par l’app et par ``geopandas.read_file``
+CHEMIN_SHP_DEFAUT: str = _resolve_chemin_macrozone_shp()
 CHEMIN_NB_PL = Path(__file__).parent / "nb_pl_par_macrozone.csv"
 CHEMIN_EMPLOI_FRET = Path(__file__).parent / "emploi_fret_par_macrozone.csv"
 CHEMIN_EMPLOI_DETAIL = Path(__file__).parent / "emploi_fret_detail_par_macrozone.csv"
@@ -129,8 +156,12 @@ def charger_csv_macrozone(chemin: str | Path = CHEMIN_CSV_DEFAUT) -> pd.DataFram
 def charger_shapefile_macrozone(
     chemin: str | Path = CHEMIN_SHP_DEFAUT,
 ) -> gpd.GeoDataFrame:
-    """Charge le shapefile, dissout par MA_ITE et reprojette en WGS 84."""
-    gdf = gpd.read_file(str(chemin))
+    """Charge les géométries (shapefile local, ``.gpkg``, ``.geojson`` ou **URL HTTPS**), dissout par MA_ITE, WGS84.
+
+    Pour le cloud sans committer un gros shapefile : exportez un GeoJSON (ou GPKG) **dissous par macrozone**
+    et pointez ``MACROZONE_SHP`` vers son URL publique, ou placez un fichier léger dans ``data/``.
+    """
+    gdf = gpd.read_file(str(chemin).strip())
 
     # Supprimer les zones sans macrozone (NaN)
     gdf = gdf.dropna(subset=["MA_ITE"])
@@ -559,8 +590,9 @@ def generer_labels_macrozones(chemin_shp: str | Path = CHEMIN_SHP_DEFAUT) -> dic
 
     Mise en cache par chemin de fichier (appels répétés du dashboard).
     """
-    p = Path(chemin_shp).resolve()
-    return _generer_labels_macrozones_mem(str(p))
+    s = str(chemin_shp).strip()
+    cle = s if s.lower().startswith(("http://", "https://")) else str(Path(s).resolve())
+    return _generer_labels_macrozones_mem(cle)
 
 
 # ---------------------------------------------------------------------------
