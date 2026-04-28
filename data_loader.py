@@ -129,8 +129,101 @@ def charger_csv_macrozone(chemin: str | Path = CHEMIN_CSV_DEFAUT) -> pd.DataFram
     Le fichier utilise la virgule comme séparateur décimal (locale FR).
     Les lignes M1 == 0 (zone « autre ») sont conservées mais signalées.
     """
-    df = pd.read_csv(chemin, sep=",", decimal=",")
+    def _read_csv_flexible(path: str | Path) -> pd.DataFrame:
+        """Essaie plusieurs formats de CSV (séparateur / décimal)."""
+        essais = [
+            (",", ","),
+            (";", ","),
+            (",", "."),
+            (";", "."),
+            ("\t", "."),
+        ]
+        best_df: pd.DataFrame | None = None
+        best_score = -1
+        for sep, decimal in essais:
+            try:
+                candidate = pd.read_csv(path, sep=sep, decimal=decimal)
+            except Exception:
+                continue
+            # Heuristique: conserver le parse qui retrouve le mieux le schéma.
+            cols = set(candidate.columns)
+            score = sum(
+                c in cols
+                for c in ["M1", "VKM", "VKM_PL", "VKM_E", "VKM_T", "VKM_I"]
+            )
+            if score > best_score:
+                best_df = candidate
+                best_score = score
+            if score >= 5:
+                return candidate
+        if best_df is not None:
+            return best_df
+        raise ValueError(
+            f"Impossible de lire le CSV macrozone: {path}. "
+            "Vérifiez le séparateur et le format."
+        )
+
+    def _to_numeric_clean(series: pd.Series) -> pd.Series:
+        """Normalise les nombres FR/EN ('1 234,5' ou '1234.5') vers float."""
+        if pd.api.types.is_numeric_dtype(series):
+            return pd.to_numeric(series, errors="coerce")
+        cleaned = (
+            series.astype(str)
+            .str.strip()
+            .str.replace("\u202f", "", regex=False)
+            .str.replace(" ", "", regex=False)
+            .str.replace(",", ".", regex=False)
+        )
+        cleaned = cleaned.replace(
+            {"": np.nan, "nan": np.nan, "None": np.nan, "NULL": np.nan}
+        )
+        return pd.to_numeric(cleaned, errors="coerce")
+
+    df = _read_csv_flexible(chemin)
+    df.columns = [str(c).strip() for c in df.columns]
+
+    numeric_cols = [
+        c
+        for c in df.columns
+        if c == "M1" or c == "DISTANCE" or c.startswith("VKM")
+    ]
+    for col in numeric_cols:
+        df[col] = _to_numeric_clean(df[col])
+
+    if "M1" not in df.columns:
+        raise ValueError("Colonne obligatoire manquante dans le CSV: M1")
+    if df["M1"].isna().any():
+        n_nan = int(df["M1"].isna().sum())
+        raise ValueError(
+            f"Colonne M1 non numérique sur {n_nan} ligne(s). "
+            "Vérifiez le format du CSV."
+        )
     df["M1"] = df["M1"].astype(int)
+
+    required_cols = [
+        "VKM",
+        "VKM_PL",
+        "VKM_E",
+        "VKM_T",
+        "VKM_I",
+        "VKM_PL_EC",
+        "VKM_PL_EV",
+        "VKM_PL_TC",
+        "VKM_PL_TV",
+        "VKM_PL_IC",
+        "VKM_PL_IV",
+    ]
+    missing = [c for c in required_cols if c not in df.columns]
+    if missing:
+        raise ValueError(
+            "Colonnes obligatoires manquantes dans le CSV: "
+            + ", ".join(missing)
+        )
+    for col in required_cols:
+        df[col] = df[col].fillna(0.0)
+
+    if "CL_ADMIN" not in df.columns:
+        raise ValueError("Colonne obligatoire manquante dans le CSV: CL_ADMIN")
     df["CL_ADMIN_LABEL"] = df["CL_ADMIN"].map(TYPES_VOIE_LABELS).fillna(df["CL_ADMIN"])
 
     # Calcul VL déduit
