@@ -114,6 +114,47 @@ def fmt_milliers(val):
     return f"{int(val):,}".replace(",", " ")
 
 
+# PL/j (nb_pl_*) vs VKM PL : definitions et unites differentes — ne pas les
+# additionner ni les croiser comme un seul indicateur physique.
+_CAPTION_PL_MATRICES = (
+    "PL/j (fichier matrices) : comptage a partir des liaisons OD EC/EV/IC/IV ; "
+    "le transit regional TC/TV n'est pas ventile par macrozone ici. "
+    "Ne pas comparer aux VKM PL (autre mesure, autre perimetre)."
+)
+_HELP_PL_JOUR_METRIC = (
+    "Effectifs PL/j depuis nb_pl_par_macrozone (matrices EC/EV/IC/IV, sans TC/TV). "
+    "Non comparable aux VKM PL du CSV macrozone."
+)
+_TEXTE_EXPANDER_PL_VS_VKM = """
+Les indicateurs **PL/j** (`nb_pl_echange`, `nb_pl_interne`, `nb_pl_total`) sont
+produits hors application (fichier `nb_pl_par_macrozone.csv`) a partir des
+matrices OD **EC, EV, IC, IV** et d'une correspondance zone OPSAM → macrozone.
+Les flux **transit regional** portes par les matrices **TC** et **TV** ne sont
+**pas** repartis par macrozone dans ce decompte : on raisonne en **liaisons**
+(origine / destination), pas en kilometrage parcouru sur le reseau d'une MZ.
+
+Les **VKM PL** du CSV macrozone decrivent des **volumes-kilometriques** sur le
+reseau rattache a la macrozone. **Ne pas** additionner ni confronter
+directement ces VKM avec les effectifs PL/j ci-dessus : unites, sources et
+perimetres sont differents.
+"""
+
+
+def _bloc_aide_pl_matrices_vs_vkm(key_expander: str) -> None:
+    """Affiche l'avertissement PL/j (matrices) vs VKM PL (non comparables)."""
+    st.caption(_CAPTION_PL_MATRICES)
+    with st.expander(
+        "PL/j (matrices) et VKM PL — lecture des indicateurs",
+        expanded=False,
+        key=key_expander,
+    ):
+        st.markdown(_TEXTE_EXPANDER_PL_VS_VKM)
+        st.caption(
+            f"Fichier de comptage PL/j : `{Path(CHEMIN_NB_PL).name}` "
+            "(joint dans l'app apres calcul hors dashboard)."
+        )
+
+
 def _mtime_fichier(path: str | Path) -> float:
     """Dernière modification (timestamp) — pour invalider le cache Streamlit si le fichier est remplacé."""
     p = Path(path)
@@ -253,7 +294,14 @@ if page == "Vue d'ensemble":
     k2.metric("VKM total (TV)", f"{vkm_total:,.0f} k km/j", help="Tous vehicules (VL + PL)")
     k3.metric("% Transit PL moy.", f"{pct_transit_pl_moy:.1f} %", help="Part transit dans les VKM PL")
     k4.metric("% PL moyen (VKM)", f"{pct_pl_moy:.1f} %", help="Part PL dans les VKM")
-    k5.metric("PL/jour total BFC", fmt_milliers(pl_total), help="Poids lourds uniquement")
+    k5.metric(
+        "PL/jour total BFC",
+        fmt_milliers(pl_total),
+        help=_HELP_PL_JOUR_METRIC,
+    )
+
+    if "nb_pl_total" in metriques.columns:
+        _bloc_aide_pl_matrices_vs_vkm("aide_pl_vue_ensemble")
 
     st.markdown("")
 
@@ -412,11 +460,18 @@ elif page == "Analyse par macrozone":
     c3.metric("% Echange PL", f"{row['pct_echange_pl']:.1f} %", help="Part echange dans VKM PL")
     c4.metric("% PL (VKM)", f"{row['pct_pl']:.1f} %", help="Part PL dans les VKM")
     if "nb_pl_total" in metriques.columns:
-        c5.metric("PL/jour total", fmt_milliers(row.get("nb_pl_total", 0)), help="Poids lourds")
+        c5.metric(
+            "PL/jour total",
+            fmt_milliers(row.get("nb_pl_total", 0)),
+            help=_HELP_PL_JOUR_METRIC,
+        )
     else:
         c5.metric("% Long. dist. (TV)", f"{row['pct_longue_distance']:.1f} %")
     c6.metric("Emplois fret", fmt_milliers(row.get("emploi_fret", 0)))
     c7.metric("ITE", f"{int(row.get('nb_ite', 0))}")
+
+    if "nb_pl_total" in metriques.columns:
+        _bloc_aide_pl_matrices_vs_vkm("aide_pl_analyse_mz")
 
     st.divider()
 
@@ -537,6 +592,9 @@ elif page == "Analyse par macrozone":
 
 elif page == "Comparaison":
     st.header("Comparaison entre macrozones")
+
+    if "nb_pl_echange" in metriques.columns:
+        _bloc_aide_pl_matrices_vs_vkm("aide_pl_comparaison")
 
     tab_bar, tab_heat, tab_scatter = st.tabs([
         ":material/leaderboard: Classement",
