@@ -37,7 +37,7 @@ section[data-testid="stSidebar"] .stRadio label span {
 /* Section headers */
 h2 {
     color: #1A1A2E !important;
-    border-bottom: 3px solid #1565C0;
+    border-bottom: 3px solid #2E7D32;
     padding-bottom: 8px;
     margin-bottom: 20px !important;
 }
@@ -64,12 +64,12 @@ h3 {
 .stButton > button {
     border-radius: 6px;
     font-weight: 600;
-    border: 1px solid #1565C0;
-    color: #1565C0;
+    border: 1px solid #2E7D32;
+    color: #2E7D32;
     transition: all 0.2s;
 }
 .stButton > button:hover {
-    background-color: #1565C0;
+    background-color: #2E7D32;
     color: white;
 }
 

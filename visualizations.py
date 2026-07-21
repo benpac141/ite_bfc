@@ -25,8 +25,11 @@ FONT_FAMILY = "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 FONT_FAMILY_BOLD = "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
 
 # Palette principale
-BLEU_PRIMAIRE = "#1565C0"
-BLEU_SECONDAIRE = "#42A5F5"
+VERT_PRIMAIRE = "#2E7D32"
+VERT_SECONDAIRE = "#66BB6A"
+# Alias de compatibilite (ancienne charte bleue)
+BLEU_PRIMAIRE = VERT_PRIMAIRE
+BLEU_SECONDAIRE = VERT_SECONDAIRE
 GRIS_FONCE = "#1A1A2E"
 GRIS_MOYEN = "#5A6A7A"
 GRIS_CLAIR = "#F5F6F8"
@@ -37,7 +40,7 @@ COULEUR_PL_CHARGE = "#C62828"
 COULEUR_PL_VIDE = "#EF9A9A"
 
 COULEURS_FLUX = {
-    "Echange": "#1976D2",
+    "Echange": "#00897B",
     "Transit": "#F57C00",
     "Interne": "#388E3C",
 }
@@ -181,8 +184,8 @@ def creer_carte_macrozones(
     is_pct = colonne.startswith("pct_")
     if is_pct:
         color_scale = [
-            [0, "#E3F2FD"], [0.25, "#90CAF9"], [0.5, "#42A5F5"],
-            [0.75, "#1565C0"], [1, "#0D47A1"],
+            [0, "#E8F5E9"], [0.25, "#A5D6A7"], [0.5, "#66BB6A"],
+            [0.75, "#2E7D32"], [1, "#1B5E20"],
         ]
     elif "nb_pl" in colonne:
         color_scale = [
@@ -517,8 +520,8 @@ def creer_heatmap_comparative(
     df_heat = df_heat.sort_values("% Transit (TV)", ascending=True)
 
     color_scale = [
-        [0, "#E3F2FD"], [0.2, "#90CAF9"], [0.4, "#42A5F5"],
-        [0.6, "#1E88E5"], [0.8, "#1565C0"], [1.0, "#0D47A1"],
+        [0, "#E8F5E9"], [0.2, "#A5D6A7"], [0.4, "#66BB6A"],
+        [0.6, "#43A047"], [0.8, "#2E7D32"], [1.0, "#1B5E20"],
     ]
 
     fig = px.imshow(
@@ -573,7 +576,7 @@ def creer_scatter_transit_pl(
         hover_name="label",
         hover_data={"VKM_milliers": ":.0f", "pct_transit": ":.1f", "pct_pl": ":.1f"},
         color_continuous_scale=[
-            [0, "#E3F2FD"], [0.5, "#1E88E5"], [1, "#0D47A1"],
+            [0, "#E8F5E9"], [0.5, "#43A047"], [1, "#1B5E20"],
         ],
         size_max=45,
         labels={
@@ -636,13 +639,13 @@ def creer_bar_comparatif(
     for v in df[colonne]:
         ratio = v / max_val if max_val > 0 else 0
         if ratio > 0.8:
-            colors.append("#0D47A1")
+            colors.append("#1B5E20")
         elif ratio > 0.5:
-            colors.append("#1565C0")
+            colors.append("#2E7D32")
         elif ratio > 0.3:
-            colors.append("#42A5F5")
+            colors.append("#66BB6A")
         else:
-            colors.append("#90CAF9")
+            colors.append("#A5D6A7")
 
     fig = go.Figure(go.Bar(
         y=df["label"],
@@ -738,9 +741,9 @@ def creer_barres_toutes_mz_distance(
 # ---------------------------------------------------------------------------
 
 COULEURS_PROFIL = [
-    "#1565C0", "#E53935", "#43A047", "#F57C00", "#7B1FA2",
-    "#00838F", "#C62828", "#33691E", "#4527A0", "#BF360C",
-    "#0277BD", "#AD1457", "#558B2F", "#6A1B9A", "#E65100",
+    "#2E7D32", "#E53935", "#00838F", "#F57C00", "#7B1FA2",
+    "#C62828", "#5C6BC0", "#33691E", "#4527A0", "#BF360C",
+    "#00695C", "#AD1457", "#558B2F", "#6A1B9A", "#E65100",
 ]
 
 
@@ -1048,9 +1051,9 @@ def creer_barres_score(metriques, labels_mz, top_n=20,
     fig = go.Figure()
 
     for col, label_tpl, weight, color in [
-        ("score_trafic", "Trafic PL reportable ({pct}%)", w_t, "#1565C0"),
+        ("score_trafic", "Trafic PL reportable ({pct}%)", w_t, "#2E7D32"),
         ("score_emploi", "Emploi fret ({pct}%)", w_e, "#FF8F00"),
-        ("score_ite", "ITE ({pct}%)", w_i, "#2E7D32"),
+        ("score_ite", "ITE ({pct}%)", w_i, "#00838F"),
     ]:
         pct = round(weight * 100)
         fig.add_trace(go.Bar(
@@ -1224,7 +1227,7 @@ def creer_tableau_croise_html(metriques, labels_mz, top_n=36):
 
     html = (
         "<table style='width:100%;border-collapse:collapse;font-size:0.9em'>"
-        "<thead><tr style='border-bottom:2px solid #1565C0'>"
+        "<thead><tr style='border-bottom:2px solid #2E7D32'>"
         "<th style='text-align:left;padding:6px'>Macrozone</th>"
         "<th>Trafic PL</th><th>PL/j</th>"
         "<th>Emploi fret</th><th>Emplois</th>"
@@ -1241,7 +1244,7 @@ def creer_tableau_croise_html(metriques, labels_mz, top_n=36):
 # Visualisations — Analyse cordon Pagny (report fluvial)
 # ---------------------------------------------------------------------------
 
-COULEUR_ENTRANT = "#1565C0"
+COULEUR_ENTRANT = "#2E7D32"
 COULEUR_SORTANT = "#E53935"
 
 
@@ -1313,7 +1316,7 @@ def creer_carte_pagny_isochrone(
     if gdf_isochrone is not None:
         _traces_isochrone_gdf(
             fig, gdf_isochrone,
-            "rgba(21,101,192,0.15)", "#1565C0",
+            "rgba(46,125,50,0.15)", "#2E7D32",
             "Isochrone 1h (Pagny)",
         )
 
@@ -1339,9 +1342,9 @@ def creer_carte_pagny_isochrone(
     pagny_lat, pagny_lon = 46.97, 5.13
     fig.add_trace(go.Scattermapbox(
         lat=[pagny_lat], lon=[pagny_lon], mode="markers+text",
-        marker=dict(size=14, color="#1565C0", symbol="harbor"),
+        marker=dict(size=14, color="#2E7D32", symbol="harbor"),
         text=["Pagny"], textposition="top center",
-        textfont=dict(size=12, color="#1565C0", family=FONT_FAMILY),
+        textfont=dict(size=12, color="#2E7D32", family=FONT_FAMILY),
         name="Port de Pagny", showlegend=True,
         hovertemplate="<b>Port de Pagny-le-Chateau</b><br>Plateforme trimodale Aproport<extra></extra>",
     ))
@@ -1701,7 +1704,7 @@ def creer_barres_bassins_ventile(
             continue
         nom = b.get("nom", bid)
         coeff = float(coeffs.get(bid, b.get("coeff", 0) or 0))
-        col = b.get("color", "#5C6BC0")
+        col = b.get("color", "#2E7D32")
         sub = df_cordon[df_cordon["zone_ext"] == zid]
         vals = []
         for c in classes:
@@ -1744,7 +1747,7 @@ def creer_barres_fos_sete(
 ) -> go.Figure:
     """Rétrocompat : Fos + Sète via :func:`creer_barres_bassins_ventile`."""
     bass = [
-        {"id": "fos", "nom": "ZIP Fos", "zone_opsam": 5125, "color": "#1565C0"},
+        {"id": "fos", "nom": "ZIP Fos", "zone_opsam": 5125, "color": "#2E7D32"},
         {"id": "sete", "nom": "Bassin Sete", "zone_opsam": 5124, "color": "#F57C00"},
     ]
     return creer_barres_bassins_ventile(
