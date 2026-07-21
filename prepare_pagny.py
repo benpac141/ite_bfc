@@ -550,7 +550,7 @@ def build_bassins_ventilation(results: dict):
             "zone_opsam": 5125,
             "coeff": float(fos.get("coeff", 0.1)),
             "source": "urssaf",
-            "color": "#1565C0",
+            "color": "#2E7D32",
         },
         {
             "id": "sete",
