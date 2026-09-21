@@ -98,7 +98,7 @@ def _ajouter_marqueurs_ite_cours(fig, ite_points=None, cours_points=None):
     avec des couleurs et contours distincts.
     """
     if ite_points is not None and not ite_points.empty:
-        fig.add_trace(go.Scattermapbox(
+        fig.add_trace(go.Scattermap(
             lat=ite_points["lat"],
             lon=ite_points["lon"],
             mode="markers",
@@ -119,7 +119,7 @@ def _ajouter_marqueurs_ite_cours(fig, ite_points=None, cours_points=None):
         ))
 
     if cours_points is not None and not cours_points.empty:
-        fig.add_trace(go.Scattermapbox(
+        fig.add_trace(go.Scattermap(
             lat=cours_points["lat"],
             lon=cours_points["lon"],
             mode="markers",
@@ -197,7 +197,7 @@ def creer_carte_macrozones(
 
     geojson = json.loads(merged.to_json())
 
-    fig = px.choropleth_mapbox(
+    fig = px.choropleth_map(
         merged,
         geojson=geojson,
         locations=merged.index,
@@ -210,7 +210,7 @@ def creer_carte_macrozones(
             "DISTANCE": ":.0f",
         },
         color_continuous_scale=color_scale,
-        mapbox_style="carto-positron",
+        map_style="carto-positron",
         zoom=6,
         center={"lat": 47.0, "lon": 5.5},
         opacity=0.75,
@@ -863,7 +863,7 @@ def creer_carte_camemberts_distance(
 
     # Fond : contours des macrozones (leger)
     geojson = json.loads(gdf_dissolved.to_json())
-    fig.add_trace(go.Choroplethmapbox(
+    fig.add_trace(go.Choroplethmap(
         geojson=geojson,
         locations=list(range(len(gdf_dissolved))),
         z=[0] * len(gdf_dissolved),
@@ -905,7 +905,7 @@ def creer_carte_camemberts_distance(
             all_lons.extend(w_lons + [None])
 
         if all_lats:
-            fig.add_trace(go.Scattermapbox(
+            fig.add_trace(go.Scattermap(
                 lat=all_lats,
                 lon=all_lons,
                 mode="lines",
@@ -930,7 +930,7 @@ def creer_carte_camemberts_distance(
             parts.append(f"  {LABELS_DISTANCE_COURTS[dk]} : {row[dk]:,.0f} ({pct:.1f}%)")
         hover_details.append("<br>".join(parts))
 
-    fig.add_trace(go.Scattermapbox(
+    fig.add_trace(go.Scattermap(
         lat=df_p["lat"],
         lon=df_p["lon"],
         mode="markers",
@@ -944,7 +944,7 @@ def creer_carte_camemberts_distance(
     _ajouter_marqueurs_ite_cours(fig, ite_points, cours_points)
 
     fig.update_layout(
-        mapbox=dict(
+        map=dict(
             style="carto-positron",
             center={"lat": 47.0, "lon": 5.0},
             zoom=6.3,
@@ -982,7 +982,7 @@ def creer_carte_score_composite(
     gdf_m = gdf.merge(metriques, left_on="MA_ITE", right_on="M1", how="inner")
     gdf_m["label"] = gdf_m["M1"].map(labels_mz).fillna("Macrozone")
 
-    fig = px.choropleth_mapbox(
+    fig = px.choropleth_map(
         gdf_m,
         geojson=json.loads(gdf_m.geometry.to_json()),
         locations=gdf_m.index,
@@ -1001,7 +1001,7 @@ def creer_carte_score_composite(
             "emploi_fret": ":.0f",
             "nb_ite": ":.0f",
         },
-        mapbox_style="carto-positron",
+        map_style="carto-positron",
         center={"lat": 47.0, "lon": 4.5},
         zoom=6.3,
         opacity=0.7,
@@ -1270,7 +1270,7 @@ def _traces_isochrone_gdf(
         for ring in rings:
             lons = [c[0] for c in ring]
             lats = [c[1] for c in ring]
-            fig.add_trace(go.Scattermapbox(
+            fig.add_trace(go.Scattermap(
                 lon=lons, lat=lats, mode="lines", fill="toself",
                 fillcolor=fillcolor, line=dict(width=2, color=linecolor),
                 name=legend_name if not leg_done else None,
@@ -1301,7 +1301,7 @@ def creer_carte_pagny_isochrone(
 
     if gdf_dissolved is not None:
         geo_bg = json.loads(gdf_dissolved.to_json())
-        fig.add_trace(go.Choroplethmapbox(
+        fig.add_trace(go.Choroplethmap(
             geojson=geo_bg,
             locations=list(range(len(gdf_dissolved))),
             z=[0] * len(gdf_dissolved),
@@ -1337,7 +1337,7 @@ def creer_carte_pagny_isochrone(
         # placeholder: no geocoding of external zones, skip scatter for now
 
     pagny_lat, pagny_lon = 46.97, 5.13
-    fig.add_trace(go.Scattermapbox(
+    fig.add_trace(go.Scattermap(
         lat=[pagny_lat], lon=[pagny_lon], mode="markers+text",
         marker=dict(size=14, color="#1565C0", symbol="harbor"),
         text=["Pagny"], textposition="top center",
@@ -1360,7 +1360,7 @@ def creer_carte_pagny_isochrone(
         else:
             short = (lab or "Port")[:20]
         hov = f"<b>{lab}</b><br>Aire 1h chalandise<extra></extra>" if lab else "Aire 1h chalandise<extra></extra>"
-        fig.add_trace(go.Scattermapbox(
+        fig.add_trace(go.Scattermap(
             lat=[lat], lon=[lon], mode="markers+text",
             marker=dict(size=12, color=col, symbol="harbor"),
             text=[short], textposition="top center",
@@ -1371,21 +1371,13 @@ def creer_carte_pagny_isochrone(
 
     _ajouter_marqueurs_ite_cours(fig, ite_points, cours_points)
 
-    if mapbox_token:
-        mapbox_layout = dict(
-            style="carto-positron",
-            accesstoken=mapbox_token,
-            center={"lat": 47.0, "lon": 4.5},
-            zoom=5.8,
-        )
-    else:
-        mapbox_layout = dict(
-            style="open-street-map",
-            center={"lat": 47.0, "lon": 4.5},
-            zoom=5.8,
-        )
+    style_fond = "carto-positron" if mapbox_token else "open-street-map"
     fig.update_layout(
-        mapbox=mapbox_layout,
+        map=dict(
+            style=style_fond,
+            center={"lat": 47.0, "lon": 4.5},
+            zoom=5.8,
+        ),
         font=dict(family=FONT_FAMILY, size=12, color=GRIS_FONCE),
         margin=dict(l=0, r=0, t=50, b=0), height=550,
         paper_bgcolor="rgba(0,0,0,0)",
